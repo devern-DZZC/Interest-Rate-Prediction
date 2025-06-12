@@ -16,10 +16,10 @@ import pandas as pd
 
 from models import db, User, Client
 
-print('Loading...')
+print('Loading Model...')
 model = joblib.load('model/prediction.pkl')
 transformer = joblib.load('model/transformer.pkl') 
-print('Loaded!')
+print('Model Loaded!')
 
 # Configure Flask App
 app = Flask(__name__)
@@ -42,7 +42,7 @@ app.app_context().push()
 CORS(app)
 jwt = JWTManager(app)
 
-# JWT Config to enable current_user
+
 @jwt.user_identity_loader
 def user_identity_lookup(identity):
   return identity
@@ -97,9 +97,7 @@ def logout_action():
   flash('Logged out')
   return response
 
-# *************************************
 
-# Page Routes (To Update)
 
 @app.route("/app", methods=['GET'])
 @jwt_required()
@@ -113,7 +111,6 @@ def home_page():
 
 @app.route("/login", methods=['POST'])
 def login_action():
-  # implement login
   data = request.form
   token = login_user(data['username'], data['password'])
   response = None
@@ -153,7 +150,7 @@ def predict_action():
 
         client = Client(
             name=str(data["name"]),
-            creditPolicy=int(data["creditPolicy"]),  # Assuming "0" or "1" from a form
+            creditPolicy=int(data["creditPolicy"]),  
             purpose=str(data["purpose"]),
             dti=float(data["dti"]),
             fico=int(data["fico"]),
@@ -163,7 +160,7 @@ def predict_action():
             inqLast6Mon=int(data["inqLast6Mon"]),
             delinq2Years=int(data["delinq2Years"]),
             pubRec=int(data["pubRec"]),
-            notFullyPaid=int(data["notFullyPaid"]),  # Assuming "0" or "1"
+            notFullyPaid=int(data["notFullyPaid"]),  
             user_id=current_user.id,
             intRate=float(prediction)
         )
