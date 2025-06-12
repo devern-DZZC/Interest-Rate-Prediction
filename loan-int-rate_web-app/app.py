@@ -16,6 +16,11 @@ import pandas as pd
 
 from models import db, User
 
+print('Loading...')
+model = joblib.load('model/prediction.pkl')
+transformer = joblib.load('model/transformer.pkl') 
+print('Loaded!')
+
 # Configure Flask App
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.root_path, 'data.db')
@@ -53,6 +58,8 @@ def login_user(username, password):
     token = create_access_token(identity=str(user.id))
     return token
   return None
+
+clients = []
 
 def initialize_db():
   db.drop_all()
@@ -100,7 +107,8 @@ def logout_action():
 def home_page():
     return render_template(
         "index.html", 
-        current_user=current_user, 
+        current_user=current_user,
+        clients=clients 
     )
 
 
@@ -119,6 +127,52 @@ def login_action():
     flash('Incorrect username or password.')
     response = redirect(url_for('login_page'))
   return response
+
+@app.route("/predict", methods=['POST'])
+def predict_action():
+    try:
+        data = request.form
+        input_data = {
+            'credit.policy': [int(data['creditPolicy'])],
+            'purpose': [data['purpose']],
+            'log.annual.inc': [float(data['logAnnInc'])],
+            'dti': [float(data['dti'])],
+            'fico': [int(data['fico'])],
+            'days.with.cr.line': [float(data['daysWithCrLine'])],
+            'revol.util': [float(data['revolUtil'])],
+            'inq.last.6mths': [int(data['inqLast6Mon'])],
+            'delinq.2yrs': [int(data['delinq2Years'])],
+            'pub.rec': [int(data['pubRec'])],
+            'not.fully.paid': [int(data['notFullyPaid'])] 
+        }
+
+        input_df = pd.DataFrame(input_data)
+        transformed_X = transformer.transform(input_df)
+        pred = model.predict(transformed_X)
+        prediction = round(float(pred[0]) * 100, 1)
+
+        clients.append({
+            "name": data["name"],
+            "creditPolicy": 'Yes' if data["creditPolicy"]==0 else 'No',
+            "purpose": data["purpose"],
+            "dti": data["dti"],
+            "fico": data["fico"],
+            "logAnnInc": data["logAnnInc"],
+            "daysWithCrLine": data["daysWithCrLine"],
+            "revolUtil": data["revolUtil"],
+            "inqLast6Mon": data["inqLast6Mon"],
+            "delinq2Years": data["delinq2Years"],
+            "pubRec": data["pubRec"],
+            "notFullyPaid": 'Yes' if data["notFullyPaid"]=='1' else 'No',
+            "interestRate": prediction
+        })
+
+        return redirect(url_for("home_page"))
+
+    except Exception as e:
+        print("Prediction error:", e)
+        return jsonify({"error": "Invalid input or prediction failed"}), 400
+
 
 
 

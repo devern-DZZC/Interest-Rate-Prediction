@@ -34,11 +34,12 @@ class Client(db.Model):
    delinq2Years = db.Column(db.Integer, nullable=False)
    pubRec = db.Column(db.Integer, nullable=False)
    notFullyPaid = db.Column(db.Integer, nullable=False)
+   intRate = db.Column(db.Float, nullable=False)
 
    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
    def __init__(self, name, creditPolicy, purpose, logAnnInc, dti, fico, daysWithCrLine,
-             revolUtil, inqLast6Mon, delinq2Years, pubRec, notFullyPaid, user_id):
+             revolUtil, inqLast6Mon, delinq2Years, pubRec, notFullyPaid, user_id, intRate):
     self.name = name
     self.creditPolicy = creditPolicy
     self.purpose = purpose
@@ -52,3 +53,4 @@ class Client(db.Model):
     self.pubRec = pubRec
     self.notFullyPaid = notFullyPaid
     self.user_id = user_id
+    self.intRate=intRate
