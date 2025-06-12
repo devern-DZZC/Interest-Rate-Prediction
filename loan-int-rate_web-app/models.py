@@ -20,6 +20,14 @@ class User(db.Model):
       """Check hashed password."""
       return check_password_hash(self.password, password)
   
+  def delete_client(self, client_id):
+    client = Client.query.filter_by(id=client_id, user_id=self.id).first()
+    if client:
+      db.session.delete(client)
+      db.session.commit()
+      return True
+    return None
+  
 class Client(db.Model):
    id = db.Column(db.Integer, primary_key=True)
    name = db.Column(db.String(120), nullable=False)

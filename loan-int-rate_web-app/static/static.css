@@ -1,17 +1,15 @@
-/* static/static.css */
-
 .input-group > .btn-random {
     min-width: 80px;
 }
 
-/* Body styling */
+
 body.bg-light {
-    background-color: #f2f5f5; /* Light gray background */
+    background-color: #f2f5f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
 }
 
-/* Heading */
+
 h1.text-center.mb-4 {
     font-weight: 700;
     color: #343a40;
@@ -30,15 +28,15 @@ h1.text-center.mb-4 {
     font-family: 'Segoe UI', sans-serif;
     text-align: center;
     font-size: 1.1rem;
-    color: #6b7280; /* Tailwind's cool gray-500 */
+    color: #6b7280;
     letter-spacing: 0.5px;
     margin-bottom: 1rem;
 }
 
 
-/* Card Headers */
+
 .card-header.bg-primary {
-    background-color: #2effa4 !important; /* Bootstrap primary blue */
+    background-color: #2effa4 !important;
     font-weight: 600;
     border-top-left-radius: 0.75rem;
     border-top-right-radius: 0.75rem;
@@ -46,14 +44,14 @@ h1.text-center.mb-4 {
 }
 
 .card-header.bg-success {
-    background-color: #2effa4 !important; /* Purple */
+    background-color: #2effa4 !important;
     font-weight: 600;
     border-top-left-radius: 0.75rem;
     border-top-right-radius: 0.75rem;
     box-shadow: 0 2px 6px rgba(135, 57, 249, 0.4);
 }
 
-/* Card Body */
+
 .card-body {
     padding: 1.25rem 1.75rem;
     background: #fff;
@@ -61,7 +59,7 @@ h1.text-center.mb-4 {
     border-bottom-right-radius: 0.75rem;
 }
 
-/* Card container */
+
 .card.shadow-sm {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 0.75rem;
@@ -69,14 +67,14 @@ h1.text-center.mb-4 {
     background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
 }
 
-/* Card hover effect */
+
 .card.shadow-sm:hover {
     box-shadow: 0 10px 20px rgba(135, 57, 249, 0.3);
     transform: translateY(-5px);
     cursor: pointer;
 }
 
-/* Card titles */
+
 .card-title {
     font-weight: 700;
     font-size: 1.25rem;
@@ -84,14 +82,14 @@ h1.text-center.mb-4 {
     margin-bottom: 0.5rem;
 }
 
-/* Card text */
+
 .card-text {
     font-size: 0.95rem;
     color: #555;
     margin-bottom: 0.3rem;
 }
 
-/* Buttons */
+
 .btn-random {
     font-size: 0.85rem;
     padding: 0.3rem 0.6rem;
@@ -109,14 +107,14 @@ h1.text-center.mb-4 {
     cursor: pointer;
 }
 
-/* Center the button within the form */
+
 .form-button-center {
     display: flex;
     justify-content: center;
     margin-top: 1.5rem;
 }
 
-/* Bigger, centered Predict button */
+
 #predictBtn {
     font-size: 1.1rem;
     padding: 0.75rem 1.75rem;
@@ -137,7 +135,7 @@ h1.text-center.mb-4 {
 
 
 
-/* Form inputs */
+
 .form-control, .form-select {
     border-radius: 0.5rem;
     border: 1.5px solid #ddd;
@@ -150,7 +148,7 @@ h1.text-center.mb-4 {
     outline: none;
 }
 
-/* Scrollbar styling for card body */
+
 .card-body::-webkit-scrollbar {
     width: 8px;
 }
@@ -164,15 +162,15 @@ h1.text-center.mb-4 {
     background: #f1f1f1;
 }
 
-/* Responsive tweaks */
+
 @media (max-width: 767px) {
     .card-body {
         padding: 1rem 1rem;
     }
 }
-/* Delete button styling */
-.btn-delete {
-    background-color: #e55353; /* A nice red */
+
+.btn-delete, .btn-outline-danger {
+    background-color: #e55353;
     color: #fff;
     font-weight: 600;
     border: none;
@@ -184,7 +182,7 @@ h1.text-center.mb-4 {
     display: inline-block;
 }
 
-.btn-delete:hover {
+.btn-delete:hover, .btn-outline-danger:hover {
     background-color: #c43c3c;
     cursor: pointer;
     color: #fff;

@@ -9,6 +9,14 @@
 <body class="bg-light">
 
 <div class="container-fluid mt-5">
+
+    <div class="d-flex justify-content-end mb-3">
+        <form action="{{ url_for('logout') }}" method="GET">
+            <button type="submit" class="btn btn-outline-danger btn-sm shadow-sm">
+                Logout
+            </button>
+        </form>
+    </div>
     <h1 class="app-title">LoanAdvisor - Loan Interest Rate Predictor</h1>
     <p class="tagline">Predict smarter. Lend better.</p>
     <hr style="border: none; height: 1px; background-color: #e5e7eb; width: 90%; margin: 0 auto 1.5rem auto;">
@@ -53,11 +61,11 @@
                                         <p class="card-text"><strong>Not Fully Paid:</strong> {{ client.notFullyPaid }}</p>
                                         <p class="card-text">
                                             <strong>Predicted Interest Rate:</strong> 
-                                            <span class="badge bg-warning text-dark">{{ client.interestRate }}%</span>
+                                            <span class="badge bg-warning text-dark">{{ client.intRate }}%</span>
                                         </p>
 
-                                        <form action="">
-                                            <button class="btn btn-delete" data-client-id="{{ client.id }}">Delete</button>
+                                        <form method="GET" action="/delete/{{client.id}}">
+                                            <button class="btn btn-delete">Delete</button>
                                         </form>
                                     </div>
                                 </div>

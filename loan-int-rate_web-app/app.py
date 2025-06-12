@@ -14,7 +14,7 @@ from flask_jwt_extended import (
 import joblib
 import pandas as pd
 
-from models import db, User
+from models import db, User, Client
 
 print('Loading...')
 model = joblib.load('model/prediction.pkl')
@@ -59,7 +59,6 @@ def login_user(username, password):
     return token
   return None
 
-clients = []
 
 def initialize_db():
   db.drop_all()
@@ -108,7 +107,7 @@ def home_page():
     return render_template(
         "index.html", 
         current_user=current_user,
-        clients=clients 
+        clients=Client.query.filter_by(user_id=current_user.id).all()
     )
 
 
@@ -129,6 +128,7 @@ def login_action():
   return response
 
 @app.route("/predict", methods=['POST'])
+@jwt_required()
 def predict_action():
     try:
         data = request.form
@@ -151,21 +151,24 @@ def predict_action():
         pred = model.predict(transformed_X)
         prediction = round(float(pred[0]) * 100, 1)
 
-        clients.append({
-            "name": data["name"],
-            "creditPolicy": 'Yes' if data["creditPolicy"]==0 else 'No',
-            "purpose": data["purpose"],
-            "dti": data["dti"],
-            "fico": data["fico"],
-            "logAnnInc": data["logAnnInc"],
-            "daysWithCrLine": data["daysWithCrLine"],
-            "revolUtil": data["revolUtil"],
-            "inqLast6Mon": data["inqLast6Mon"],
-            "delinq2Years": data["delinq2Years"],
-            "pubRec": data["pubRec"],
-            "notFullyPaid": 'Yes' if data["notFullyPaid"]=='1' else 'No',
-            "interestRate": prediction
-        })
+        client = Client(
+            name=str(data["name"]),
+            creditPolicy=int(data["creditPolicy"]),  # Assuming "0" or "1" from a form
+            purpose=str(data["purpose"]),
+            dti=float(data["dti"]),
+            fico=int(data["fico"]),
+            logAnnInc=float(data["logAnnInc"]),
+            daysWithCrLine=float(data["daysWithCrLine"]),
+            revolUtil=float(data["revolUtil"]),
+            inqLast6Mon=int(data["inqLast6Mon"]),
+            delinq2Years=int(data["delinq2Years"]),
+            pubRec=int(data["pubRec"]),
+            notFullyPaid=int(data["notFullyPaid"]),  # Assuming "0" or "1"
+            user_id=current_user.id,
+            intRate=float(prediction)
+        )
+        db.session.add(client)
+        db.session.commit()
 
         return redirect(url_for("home_page"))
 
@@ -173,44 +176,23 @@ def predict_action():
         print("Prediction error:", e)
         return jsonify({"error": "Invalid input or prediction failed"}), 400
 
+@app.route("/delete/<int:client_id>", methods=["GET"])
+@jwt_required()
+def delete_action(client_id):
+    res = current_user.delete_client(client_id)
+    if res == None:
+      flash('Invalid id or unauthorized')
+    else:
+      flash('Client Deleted')
+    return redirect(url_for('home_page'))
 
-
-
-""""
-print('Loading...')
-
-model = joblib.load('model/prediction.pkl')
-transformer = joblib.load('model/transformer.pkl') 
-print('Loaded!')
-
-
-sample_data = {
-    'credit.policy': [1],
-    'purpose': ["debt_consolidation"],
-    'log.annual.inc': [11.350407],
-    'dti': [19.48],
-    'fico': [400],
-    'days.with.cr.line': [5639.95833],
-    'revol.util': [52.1],
-    'inq.last.6mths': [1],
-    'delinq.2yrs': [0],
-    'pub.rec': [0],
-    'not.fully.paid': [0] 
-}
-
-
-input_df = pd.DataFrame(sample_data)
-
-
-transformed_X = transformer.transform(input_df)
-
-
-pred = model.predict(transformed_X)
-
-
-print("Prediction:", pred)
-
-"""
+@app.route('/logout', methods=["GET"])
+@jwt_required()
+def logout():
+  flash('Logged Out')
+  response = redirect('/')
+  unset_jwt_cookies(response)
+  return response
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', port=8080)
