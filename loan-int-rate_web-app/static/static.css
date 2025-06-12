@@ -1,0 +1,203 @@
+/* static/static.css */
+
+.input-group > .btn-random {
+    min-width: 80px;
+}
+
+/* Body styling */
+body.bg-light {
+    background-color: #f2f5f5; /* Light gray background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Heading */
+h1.text-center.mb-4 {
+    font-weight: 700;
+    color: #343a40;
+}
+
+.app-title {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    color: #1a4d2e;
+    text-align: center;
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+}
+
+.tagline {
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #6b7280; /* Tailwind's cool gray-500 */
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+
+/* Card Headers */
+.card-header.bg-primary {
+    background-color: #2effa4 !important; /* Bootstrap primary blue */
+    font-weight: 600;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(55, 185, 241, 0.4);
+}
+
+.card-header.bg-success {
+    background-color: #2effa4 !important; /* Purple */
+    font-weight: 600;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(135, 57, 249, 0.4);
+}
+
+/* Card Body */
+.card-body {
+    padding: 1.25rem 1.75rem;
+    background: #fff;
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+/* Card container */
+.card.shadow-sm {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+}
+
+/* Card hover effect */
+.card.shadow-sm:hover {
+    box-shadow: 0 10px 20px rgba(135, 57, 249, 0.3);
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+/* Card titles */
+.card-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #4a4a4a;
+    margin-bottom: 0.5rem;
+}
+
+/* Card text */
+.card-text {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 0.3rem;
+}
+
+/* Buttons */
+.btn-random {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+    background-color: #2effa4;
+    color: #f2f5f5;
+    font-weight: 600;
+    border-radius: 0.375rem;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-outline-secondary.btn-random:hover {
+    background-color: #a1fbc0;
+    border-color: #adb5bd;
+    cursor: pointer;
+}
+
+/* Center the button within the form */
+.form-button-center {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* Bigger, centered Predict button */
+#predictBtn {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.75rem;
+    min-width: 180px;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    background-color: #2effa4;
+    color: #f2f5f5;
+    border: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
+#predictBtn:hover {
+    background-color: #a1fbc0;
+}
+
+
+
+/* Form inputs */
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    border: 1.5px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #2effa4;
+    box-shadow: 0 0 8px rgba(135, 57, 249, 0.3);
+    outline: none;
+}
+
+/* Scrollbar styling for card body */
+.card-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background-color: rgba(67, 249, 57, 0.3);
+    border-radius: 4px;
+}
+
+.card-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767px) {
+    .card-body {
+        padding: 1rem 1rem;
+    }
+}
+/* Delete button styling */
+.btn-delete {
+    background-color: #e55353; /* A nice red */
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+.btn-delete:hover {
+    background-color: #c43c3c;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 0 0 6px rgba(196, 60, 60, 0.6);
+}
+.card-fullname-header {
+    background-color: #d9f763;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
