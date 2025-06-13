@@ -67,6 +67,11 @@ def initialize_db():
   db.session.add(user)
   db.session.commit()
 
+@app.route('/init', methods=['GET'])
+def init():
+    initialize_db()
+    return redirect('/')
+
 @app.route("/", methods=['GET'])
 def login_page():
   return render_template("login.html")
