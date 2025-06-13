@@ -199,3 +199,72 @@ h1.text-center.mb-4 {
     border-top-right-radius: 0.75rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+/* Adjust container padding on small screens */
+@media (max-width: 768px) {
+    body {
+        padding: 0 1rem;
+    }
+
+    .app-title {
+        font-size: 1.75rem;
+    }
+
+    .tagline {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .card.shadow-sm {
+        margin-bottom: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .card-text {
+        font-size: 0.85rem;
+    }
+
+    #predictBtn {
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+        min-width: unset;
+        width: 100%;
+    }
+
+    .btn-delete, .btn-outline-danger {
+        font-size: 0.85rem;
+        width: 100%;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .form-button-center {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-control, .form-select {
+        font-size: 1rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .card-fullname-header {
+        font-size: 1.1rem;
+        padding: 0.6rem 0.9rem;
+    }
+
+    .btn-random {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .input-group > .btn-random {
+        min-width: unset;
+        width: 100%;
+    }
+}
