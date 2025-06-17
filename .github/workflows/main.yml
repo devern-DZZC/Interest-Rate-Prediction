@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Curl request
-        run: curl -m 10 https://your-render-app.onrender.com
+        run: curl -m 10 https://interest-rate-prediction.onrender.com
