@@ -80,19 +80,20 @@ def login_page():
 def signup_action():
   response = None
   try:
-    username = request.form['username']
-    password = request.form['password']
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
     user = User(username=username, password=password)
     db.session.add(user)
     db.session.commit()
-    response = redirect(url_for('home_page'))
+    response = jsonify({"message": "Account created successfully"})
     token = create_access_token(identity=str(user.id))
     set_access_cookies(response, token)
+    return response, 200
   except IntegrityError:
     flash('Username already exists')
-    response = redirect(url_for('signup_page'))
-  flash('Account created')
-  return response
+    response = jsonify({"error": "Failed to create account"})
+    return response, 401
 
 @app.route("/logout", methods=['GET'])
 @jwt_required()

@@ -2,16 +2,16 @@ import React from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import {useState} from 'react'
 
-const Login = () => {
+const Auth = ({isNewUser}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
 
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const response = await fetch('http://localhost:5000/login', {
+    const response = await fetch(isNewUser ? 'http://localhost:5000/signup' : 'http://localhost:5000/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({username, password})
@@ -26,10 +26,14 @@ const Login = () => {
   return (
     <div>
       <div className="card">
-        <div className="card__img" id="img01"></div>
+        <div className="card__img" id={isNewUser ? "img02":"img01"}></div>
         <div className="card__content">
-          <h2 className="card__content-header">Welcome to LoanAdvisor</h2>
-          <p className="card__content-theme">Log in to your account</p>
+          <h2 className="card__content-header">
+            Welcome to LoanAdvisor
+         </h2>
+          <p className="card__content-theme">
+            {isNewUser ? 'Create an account' :'Log in to your account'}
+          </p>
 
           <form id="loginForm" onSubmit={handleSubmit} style={{ padding: '1em' }}>
             <div className="row">
@@ -59,14 +63,16 @@ const Login = () => {
             </div>
 
             <div className="card-action">
-              <input type="submit" value="Let's Go" className="btn" id='btn'/>
+              <input type="submit" value={isNewUser ? "Sign Up" : "Log In"} className="btn" id='btn'/>
             </div>
           </form>
 
           <div className="alt-text">
-            <span>Don't have an account yet?</span>{' '}
-            <Link to="/signup" style={{ color: '#256215' }}>
-              Sign up
+            <span>
+                {isNewUser? "Already have an account?" : "Don't have an account yet?"}
+            </span>{' '}
+            <Link to= {isNewUser ? "/" : "/signup"} style={{ color: '#256215' }}>
+              {isNewUser ? 'Log in': 'Sign up'}
             </Link>
           </div>
         </div>
@@ -75,4 +81,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Auth;
