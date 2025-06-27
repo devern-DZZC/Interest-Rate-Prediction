@@ -1,15 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import {useState} from 'react'
 
 const Login = () => {
-    const {username, setUsername} = useState("")
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // handle login logic here
-    console.log("Form submitted");
+    
+    const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, password})
+    })
+
+    if (response.ok) {
+        navigate('/app')
+    } else
+        alert("Invalid username or password");
   };
 
   return (
@@ -28,6 +39,8 @@ const Login = () => {
                   name="username"
                   type="text"
                   className="validate"
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -39,6 +52,8 @@ const Login = () => {
                   name="password"
                   type="password"
                   className="validate"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
             </div>

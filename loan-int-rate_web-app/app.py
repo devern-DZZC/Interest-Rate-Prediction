@@ -116,18 +116,20 @@ def home_page():
 
 @app.route("/login", methods=['POST'])
 def login_action():
-  data = request.form
-  token = login_user(data['username'], data['password'])
+  data = request.get_json()
+  username = data.get('username')
+  password = data.get('password')
+  token = login_user(username, password)
   response = None
-  print(token)
   if token:
     flash('Logged in successfully!')
-    response = redirect(url_for('home_page'))
+    response = jsonify({"message": "Login successful"})
     set_access_cookies(response, token)
+    return response, 200
   else:
     flash('Incorrect username or password.')
-    response = redirect(url_for('login_page'))
-  return response
+    response = jsonify({"error": "Invalid credentials"})
+  return response, 401
 
 @app.route("/predict", methods=['POST'])
 @jwt_required()
