@@ -72,62 +72,50 @@ def init():
     initialize_db()
     return redirect('/')
 
-@app.route("/", methods=['GET'])
-def login_page():
-  return render_template("login.html")
-
 @app.route("/signup", methods=['POST'])
 def signup_action():
   response = None
   try:
-    username = request.form['username']
-    password = request.form['password']
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
     user = User(username=username, password=password)
     db.session.add(user)
     db.session.commit()
-    response = redirect(url_for('home_page'))
+    response = jsonify({"message": "Account created successfully"})
     token = create_access_token(identity=str(user.id))
     set_access_cookies(response, token)
+    return response, 200
   except IntegrityError:
     flash('Username already exists')
-    response = redirect(url_for('signup_page'))
-  flash('Account created')
-  return response
+    response = jsonify({"error": "Failed to create account"})
+    return response, 401
 
 @app.route("/logout", methods=['GET'])
 @jwt_required()
 def logout_action():
-  response = redirect(url_for('login_page'))
+  response = jsonify({"msg": "Logged out"})
   unset_jwt_cookies(response)
   flash('Logged out')
-  return response
-
-
-
-@app.route("/app", methods=['GET'])
-@jwt_required()
-def home_page():
-    return render_template(
-        "index.html", 
-        current_user=current_user,
-        clients=Client.query.filter_by(user_id=current_user.id).all()
-    )
+  return response, 200
 
 
 @app.route("/login", methods=['POST'])
 def login_action():
-  data = request.form
-  token = login_user(data['username'], data['password'])
+  data = request.get_json()
+  username = data.get('username')
+  password = data.get('password')
+  token = login_user(username, password)
   response = None
-  print(token)
   if token:
     flash('Logged in successfully!')
-    response = redirect(url_for('home_page'))
+    response = jsonify({"message": "Login successful"})
     set_access_cookies(response, token)
+    return response, 200
   else:
     flash('Incorrect username or password.')
-    response = redirect(url_for('login_page'))
-  return response
+    response = jsonify({"error": "Invalid credentials"})
+  return response, 401
 
 @app.route("/predict", methods=['POST'])
 @jwt_required()
@@ -172,7 +160,7 @@ def predict_action():
         db.session.add(client)
         db.session.commit()
 
-        return redirect(url_for("home_page"))
+        return jsonify({"message": "Client added successfully"}), 200
 
     except Exception as e:
         print("Prediction error:", e)
@@ -183,18 +171,9 @@ def predict_action():
 def delete_action(client_id):
     res = current_user.delete_client(client_id)
     if res == None:
-      flash('Invalid id or unauthorized')
+      return jsonify({"message": "Client failed to be deleted"}), 403
     else:
-      flash('Client Deleted')
-    return redirect(url_for('home_page'))
-
-@app.route('/logout', methods=["GET"])
-@jwt_required()
-def logout():
-  flash('Logged Out')
-  response = redirect('/')
-  unset_jwt_cookies(response)
-  return response
+      return jsonify({"message": "Client deleted successfully"}), 200
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', port=8080)

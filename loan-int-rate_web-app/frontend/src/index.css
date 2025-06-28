@@ -1,0 +1,393 @@
+/* ======================
+   Global Styles
+====================== */
+body, html {
+  height: auto;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Corbert Black', 'Segoe UI', sans-serif;
+  background-color: #fff;
+  color: #403e4b;
+  overflow-x: hidden;
+}
+
+h1, h2 {
+  font-family: 'Corbert Black';
+}
+
+p, span, a {
+  font-family: 'Almarose', sans-serif;
+}
+
+/* ======================
+   Buttons
+====================== */
+#btn {
+  background-color: #256215;
+  color: white;
+  font-family: 'Corbert Black';
+  transition: 0.3s ease-in-out;
+}
+
+#btn:hover {
+  background-color: #f6df30;
+  box-shadow: 0 3px 3px rgba(227, 159, 41, 0.6);
+}
+
+/* ======================
+   Auth Text
+====================== */
+.alt-text {
+  font-size: 2vmin;
+}
+
+.alt-text span {
+  color: #bac5c6;
+}
+
+/* ======================
+   Slide Layout
+====================== */
+.slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100vw;
+  height: 100vh;
+}
+
+.card {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  margin: 0;
+}
+
+.card__img {
+  width: 50%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#img01 {
+  background-image: url("https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFua3xlbnwwfHwwfHx8MA%3D%3D");
+}
+
+#img02 {
+  background-image: url("https://media.istockphoto.com/id/1426365098/photo/bank-teller-counting-money-for-customer.jpg?s=612x612&w=0&k=20&c=OpQu1jUYoJj30igBMys0e9BZ-uThHmMLMiJbWfv9UzQ=");
+}
+
+/* ======================
+   Card Content
+====================== */
+.card__content {
+  padding: 10% 5%;
+  box-sizing: border-box;
+  width: 50%;
+  text-align: center;
+}
+
+.card__content-header {
+  font-weight: 900;
+  font-size: 7vmin;
+  text-transform: capitalize;
+  letter-spacing: 0.01em;
+  line-height: 0.91;
+  margin: 3vmin 0 3.5vmin;
+}
+
+.card__content-theme {
+  font-weight: 900;
+  font-size: 2.7vmin;
+}
+
+.card__content-paragraph {
+  font-size: 1.6vmin;
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 2.5vmin;
+}
+
+.card__content-link {
+  color: #ba3428;
+  font-size: 1.8vmin;
+  display: block;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+/* ======================
+   Page Header
+====================== */
+.page-header {
+  padding: 2rem 2rem 0;
+  background-color: #fff;
+}
+
+.app-title {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    color: #1a4d2e;
+    text-align: center;
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+}
+
+.tagline {
+  font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #6b7280;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+/* ======================
+   Main Layout Flex
+====================== */
+.main-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 2rem;
+  gap: 2rem;
+  box-sizing: border-box;
+  min-height: 100vh;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+/* ======================
+   Client List Container
+====================== */
+.client-list-container {
+  flex: 1;
+  max-width: 60%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #fdfdfd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.client-list-container-header {
+  background-color: #2effa4;
+  color: white;
+  height: 50px;
+  display: flex;
+  align-items: center; /* vertical centering */
+  padding: 0 1rem;     /* horizontal padding only */
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.client-list-container-header h3{
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.client-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+/* ======================
+   Form Container
+====================== */
+.form-container {
+  flex: 1;
+  max-width: 40%;
+  height: 100vh;
+  border: 1.5px solid #ddd;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ======================
+   Individual Client Card
+====================== */
+.client-card {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2e2e2e;
+  flex: 1 1 300px;
+}
+
+.client-card-header {
+  background-color: #d7f63bd0;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.client-card-title {
+  margin: 0;
+}
+
+.client-card-body {
+  padding: 1.5rem;
+}
+
+.client-card-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+
+.client-card-text strong {
+  color: #1a4d2e;
+  font-weight: 600;
+}
+
+.client-card-badge {
+  display: inline-block;
+  background-color: #ffeb3b;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.5rem;
+  margin-left: 0.4rem;
+}
+
+.client-card-delete {
+  background-color: #e53935;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  width: 100%;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.client-card-delete:hover {
+  background-color: #c62828;
+  box-shadow: 0 0 6px rgba(196, 60, 60, 0.5);
+}
+
+/* ======================
+   Client Form Card
+====================== */
+/* ======================
+   Client Form Card Styling
+====================== */
+.client-form-card {
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 430px;
+}
+
+/* Header style (green and rounded at top) */
+.client-form-header {
+  background-color: #2effa4;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1rem 1.5rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  flex-shrink: 0;
+}
+
+/* Scrollable form body */
+.client-form-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+/* Adjust form fields */
+.client-form-body .form-label {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.client-form-body .form-control,
+.client-form-body .form-select {
+  font-size: 0.95rem;
+  padding: 0.5rem;
+}
+
+/* Random button styling */
+.btn-random {
+  background-color: #2effa4;
+  color: white;
+  font-weight: 600;
+  border: none;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.btn-random:hover {
+  background-color: #1bcc88;
+}
+
+/* Predict & Save button */
+#predictBtn {
+  margin-top: 1rem;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+}
+
+
+#predictBtn:hover {
+  background-color: #28a745;
+  box-shadow: 0 0 6px rgba(40, 167, 69, 0.5);
+}
+
+/* Scrollbar for form body */
+.client-form-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.client-form-body::-webkit-scrollbar-thumb {
+  background-color: #cfd8dc;
+  border-radius: 3px;
+}
+
