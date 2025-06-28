@@ -34,6 +34,13 @@ const App = () => {
     <div>
       {/* Page Header */}
       <header className="page-header">
+      <div class="d-flex justify-content-end mb-3">
+        <form action="">
+            <button type="submit" class="btn btn-outline-danger btn-sm shadow-sm">
+                Logout
+            </button>
+        </form>
+      </div>
         <h1 className="app-title">LoanAdvisor - Loan Interest Rate Predictor</h1>
         <p className="tagline">Predict smarter. Lend better.</p>
         <hr />
