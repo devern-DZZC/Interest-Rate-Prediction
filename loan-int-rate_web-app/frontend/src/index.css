@@ -1,64 +1,77 @@
-
-@font-face {
-  font-family: 'Corbert Black';
-  src: url('/static/fonts/Corbert_Black.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'Almarose';
-  src: url('/static/fonts/Almarose_Medium.otf') format('opentype');
-}
-
-body, html{
+/* Base layout styles */
+body, html {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-body{
-  font-family: 'Corbert Black';
+body {
+  font-family: 'Segoe UI', sans-serif;
   background-color: #fff;
   color: #403e4b;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-h1, h2{
-  font-family: 'Corbert Black';
+/* Typography */
+h1, h2 {
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 700;
 }
 
-p, span, a{
-  font-family: 'Almarose';
+p, span, a {
+  font-family: 'Almarose', sans-serif;
 }
 
-#btn{
-  background-color: #256215; 
+.app-title {
+  font-size: 2.5rem;
+  color: #1a4d2e;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+
+.tagline {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+/* Auth button */
+#btn {
+  background-color: #256215;
   color: white;
-  font-family: 'Corbert Black';
+  font-family: 'Segoe UI', sans-serif;
   transition: 0.3s ease-in-out;
 }
 
-#btn:hover{
+#btn:hover {
   background-color: #f6df30;
   box-shadow: 0 3px 3px rgba(227, 159, 41, 0.6);
 }
 
-.alt-text{
-  font-size: 2.0vmin; 
+/* Alt text under login/signup */
+.alt-text {
+  font-size: 2vmin;
 }
 
-.alt-text span{
+.alt-text span {
   color: #bac5c6;
 }
 
-.slide{ 
+/* Slide full-screen card wrapper */
+.slide {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
 }
 
-.card{
+/* Card layout */
+.card {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -67,56 +80,263 @@ p, span, a{
   align-items: center;
 }
 
-.card__img{
+.card__img {
   background-position: center;
   width: 50%;
   height: 100%;
   background-size: cover;
-  background-repeat: no-repeat;  
+  background-repeat: no-repeat;
 }
 
-#img02{
-  background-image: url("https://media.istockphoto.com/id/1426365098/photo/bank-teller-counting-money-for-customer.jpg?s=612x612&w=0&k=20&c=OpQu1jUYoJj30igBMys0e9BZ-uThHmMLMiJbWfv9UzQ=")
-}
-
-#img01{
+#img01 {
   background-image: url("https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFua3xlbnwwfHwwfHx8MA%3D%3D");
 }
 
-.card__content{
+#img02 {
+  background-image: url("https://media.istockphoto.com/id/1426365098/photo/bank-teller-counting-money-for-customer.jpg?s=612x612&w=0&k=20&c=OpQu1jUYoJj30igBMys0e9BZ-uThHmMLMiJbWfv9UzQ=");
+}
+
+.card__content {
   padding: 10% 5%;
   box-sizing: border-box;
   width: 50%;
   text-align: center;
 }
 
-.card__content-theme{
+.card__content-header {
   font-weight: 900;
-  font-size: 2.7vmin; 
-}
-
-.card__content-header{
-  font-weight: 900;
-  font-size: 54px;
   font-size: 7vmin;
   text-transform: capitalize;
   letter-spacing: 0.01em;
   line-height: 0.91;
-  margin: 3vmin 0 3.5vmin;  
+  margin: 3vmin 0 3.5vmin;
 }
 
-.card__content-paragraph{
+.card__content-theme {
+  font-weight: 900;
+  font-size: 2.7vmin;
+}
+
+.card__content-paragraph {
   font-size: 1.6vmin;
   line-height: 1.7;
   font-weight: 300;
   margin-bottom: 2.5vmin;
 }
 
-.card__content-link{
-  color: #BA3428;
+.card__content-link {
+  color: #ba3428;
   font-size: 1.8vmin;
   display: block;
   cursor: pointer;
   opacity: 0.7;
   transition: opacity 0.3s ease;
+}
+
+/* Prediction form */
+.card-header {
+  font-weight: 600;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+.card-header.bg-success {
+  background-color: #2effa4 !important;
+  box-shadow: 0 2px 6px rgba(135, 57, 249, 0.4);
+}
+
+.card-body {
+  padding: 1.25rem 1.75rem;
+  background: #fff;
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  max-height: 550px;
+  overflow-y: auto;
+}
+
+/* Card wrapper */
+.card.shadow-sm {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+}
+
+.card.shadow-sm:hover {
+  box-shadow: 0 10px 20px rgba(135, 57, 249, 0.3);
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+
+/* Form button */
+#predictBtn {
+  font-size: 1.1rem;
+  padding: 0.75rem 1.75rem;
+  min-width: 180px;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  background-color: #2effa4;
+  color: #f2f5f5;
+  border: none;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+#predictBtn:hover {
+  background-color: #a1fbc0;
+}
+
+/* Form styles */
+.form-control, .form-select {
+  border-radius: 0.5rem;
+  border: 1.5px solid #ddd;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #2effa4;
+  box-shadow: 0 0 8px rgba(135, 57, 249, 0.3);
+  outline: none;
+}
+
+.input-group > .btn-random {
+  min-width: 80px;
+}
+
+.btn-random {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.6rem;
+  background-color: #2effa4;
+  color: #f2f5f5;
+  font-weight: 600;
+  border-radius: 0.375rem;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-outline-secondary.btn-random:hover {
+  background-color: #a1fbc0;
+  border-color: #adb5bd;
+  cursor: pointer;
+}
+
+.form-button-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Scrollbar */
+.card-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+  background-color: rgba(67, 249, 57, 0.3);
+  border-radius: 4px;
+}
+
+.card-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Danger button */
+.btn-delete, .btn-outline-danger {
+  background-color: #e55353;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover, .btn-outline-danger:hover {
+  background-color: #c43c3c;
+  cursor: pointer;
+  color: #fff;
+  box-shadow: 0 0 6px rgba(196, 60, 60, 0.6);
+}
+
+.card-fullname-header {
+  background-color: #d9f763;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 0 1rem;
+  }
+
+  .app-title {
+    font-size: 1.75rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card.shadow-sm {
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .card-text {
+    font-size: 0.85rem;
+  }
+
+  #predictBtn {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    width: 100%;
+    min-width: unset;
+  }
+
+  .btn-delete, .btn-outline-danger {
+    font-size: 0.85rem;
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .form-button-center {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-control, .form-select {
+    font-size: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .card-fullname-header {
+    font-size: 1.1rem;
+    padding: 0.6rem 0.9rem;
+  }
+
+  .btn-random {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .input-group > .btn-random {
+    min-width: unset;
+    width: 100%;
+  }
 }
