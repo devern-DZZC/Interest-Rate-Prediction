@@ -1,22 +1,65 @@
 import React from 'react';
+import Card from './components/Card';
 import Form from './components/Form';
 
 const App = () => {
+  // Sample client data
+  const client = {
+    name: "Devern Chattergoon",
+    creditPolicy: "Yes",
+    purpose: "credit_card",
+    dti: 0.25,
+    fico: 720,
+    logAnnInc: 10.5,
+    daysWithCrLine: 1500,
+    revolUtil: 20.5,
+    inqLast6Mon: 1,
+    delinq2Years: 0,
+    pubRec: 0,
+    notFullyPaid: "No",
+    intRate: 7.5,
+  };
+
+  const purpose_map = {
+    credit_card: "Credit Card",
+    debt_consolidation: "Debt Consolidation",
+    educational: "Educational",
+    home_improvement: "Home Improvement",
+    major_purchase: "Major Purchase",
+    small_business: "Small Business",
+    all_other: "All Other",
+  };
+
   return (
-    <div className="container my-5">
-      <h1 className="app-title text-center mb-3">LoanAdvisor - Loan Interest Rate Predictor</h1>
-      <p className="tagline text-center mb-4">Predict smarter. Lend better.</p>
-      <hr
-        style={{
-          border: 'none',
-          height: '1px',
-          backgroundColor: '#e5e7eb',
-          width: '90%',
-          margin: '0 auto 1.5rem auto',
-        }}
-      />
-      <div className="row justify-content-center">
-        <div className="col-md-7">
+    <div>
+      {/* Page Header */}
+      <header className="page-header">
+        <h1 className="app-title">LoanAdvisor - Loan Interest Rate Predictor</h1>
+        <p className="tagline">Predict smarter. Lend better.</p>
+        <hr />
+      </header>
+
+      {/* Main Layout Section */}
+      <div className="main-layout">
+        {/* Client List */}
+        <div className="client-list-container">
+          <div className="client-list-container-header">
+            <h3>Client List</h3>
+          </div>
+          <div className="client-list">
+            <Card client={client} purpose_map={purpose_map} />
+            <Card client={client} purpose_map={purpose_map} />
+            <Card client={client} purpose_map={purpose_map} />
+          </div>
+        </div>
+
+        {/* Form Container */}
+        <div className="form-container">
+          {/* Form Header (like client list header) */}
+          <div className="client-list-container-header">
+            <h3>Add New Client</h3>
+          </div>
+          {/* Form Body */}
           <Form />
         </div>
       </div>
