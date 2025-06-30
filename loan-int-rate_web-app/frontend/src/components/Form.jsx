@@ -48,7 +48,7 @@ const Form = ({onClientAdded}) => {
           <label className="form-label">Full Name</label>
           <input type="text" className="form-control" name="name"
           {...register("name", {required: true})} />
-          {errors.name && <p>Full name required</p>}
+          {errors.name && <p className="form-error">Full name required</p>}
         </div>
 
         <div className="mb-3">
@@ -58,7 +58,7 @@ const Form = ({onClientAdded}) => {
             <option value="0">Yes</option>
             <option value="1">No</option>
           </select>
-          {errors.creditPolicy && <p>This field is required</p>}
+          {errors.creditPolicy && <p className="form-error">This field is required</p>}
         </div>
 
         <div className="mb-3">
@@ -73,7 +73,7 @@ const Form = ({onClientAdded}) => {
             <option value="small_business">Small Business</option>
             <option value="all_other">All Other</option>
           </select>
-          {errors.purpose && <p>This field is required</p>}
+          {errors.purpose && <p className="form-error">This field is required</p>}
         </div>
 
         {[
@@ -88,26 +88,29 @@ const Form = ({onClientAdded}) => {
         ].map((field) => (
           <div className="mb-3" key={field.name}>
             <label className="form-label">{field.label}</label>
-            <div className="input-group">
-              <input
-                type="number"
-                step={field.step || '1'}
-                min={field.min}
-                max={field.max}
-                className="form-control"
-                name={field.name}
-                id={field.name}
-                {...register(field.name, {required:true})}
-              />
-              {errors[field.name] && <p>This field is required</p>}
-              <button
-                type="button"
-                className="btn-random"
-                onClick={() => setRandom(field.name)}
-              >
-                Random
-              </button>
+            <div className="input-group align-items-center">
+                <input
+                    type="number"
+                    step={field.step || '1'}
+                    min={field.min}
+                    max={field.max}
+                    className="form-control w-50"
+                    name={field.name}
+                    id={field.name}
+                    {...register(field.name, { required: true })}
+                />
+                <button
+                    type="button"
+                    className="btn-random"
+                    onClick={() => setRandom(field.name)}
+                >
+                    Random
+                </button>
             </div>
+            {errors[field.name] && (
+            <p className="form-error">This field is required</p>
+            )}
+
           </div>
         ))}
 
@@ -117,6 +120,7 @@ const Form = ({onClientAdded}) => {
             <option value="">Select</option>
             <option value="0">Yes</option>
             <option value="1">No</option>
+            {errors.notFullyPaid && <p className="form-error">This field is required</p>}
           </select>
         </div>
 
