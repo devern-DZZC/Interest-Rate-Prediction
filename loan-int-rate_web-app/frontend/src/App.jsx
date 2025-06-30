@@ -86,7 +86,7 @@ const App = () => {
           </div>
           <div className="client-list">
             {clientList.map((client) => (
-              <Card key={client.id} client={client} purpose_map={purpose_map}/>
+              <Card key={client.id} client={client} purpose_map={purpose_map} onDelete={fetchClients}/>
             ))}
           </div>
         </div>

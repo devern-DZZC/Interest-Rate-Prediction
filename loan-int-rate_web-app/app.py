@@ -194,7 +194,7 @@ def get_clients():
     return jsonify(clients_list), 200
 
 
-@app.route("/delete/<int:client_id>", methods=["GET"])
+@app.route("/delete/<int:client_id>", methods=["DELETE"])
 @jwt_required()
 def delete_action(client_id):
     res = current_user.delete_client(client_id)

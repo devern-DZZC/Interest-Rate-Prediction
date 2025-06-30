@@ -1,7 +1,24 @@
 import React from 'react';
 
-const Card = ({ client, purpose_map }) => {
+const Card = ({ client, purpose_map, onDelete }) => {
   if (!client) return null;
+
+
+  const handleDelete = async (e, id) => {
+    e.preventDefault()
+
+    const response = await fetch(`http://localhost:5000/delete/${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include'
+    })
+
+    if(response.ok){
+        if(onDelete) onDelete();
+    }else{
+        console.log('Failed to delete client')
+    }
+  }
 
   return (
     <div className="client-card">
@@ -29,12 +46,7 @@ const Card = ({ client, purpose_map }) => {
         </p>
 
         {/* Delete Button */}
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          // Handle delete logic here if needed
-        }}>
-          <button type="submit" className="client-card-delete">Delete</button>
-        </form>
+          <button onClick={(e) => handleDelete(e, client.id)} type="submit" className="client-card-delete">Delete</button>
       </div>
     </div>
   );
