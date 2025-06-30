@@ -10,14 +10,17 @@ const Auth = ({isNewUser}) => {
 
     const handleSubmit = async (e) => {
     e.preventDefault();
-    
     const response = await fetch(isNewUser ? 'http://localhost:5000/signup' : 'http://localhost:5000/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
         body: JSON.stringify({username, password})
     })
 
+    const result = await response.json();
+
     if (response.ok) {
+        localStorage.setItem("token", result.token)
         navigate('/app')
     } else
         alert("Invalid username or password");

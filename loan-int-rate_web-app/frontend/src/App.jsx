@@ -34,9 +34,9 @@ const App = () => {
     <div>
       {/* Page Header */}
       <header className="page-header">
-      <div class="d-flex justify-content-end mb-3">
+      <div className="d-flex justify-content-end mb-3">
         <form action="">
-            <button type="submit" class="btn btn-outline-danger btn-sm shadow-sm">
+            <button type="submit" className="btn btn-outline-danger btn-sm shadow-sm">
                 Logout
             </button>
         </form>

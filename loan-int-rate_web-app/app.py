@@ -30,7 +30,7 @@ app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
 app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token'
 app.config["JWT_TOKEN_LOCATION"] = ["cookies", "headers"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=15)
-app.config["JWT_COOKIE_SECURE"] = True
+app.config["JWT_COOKIE_SECURE"] = False
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET_KEY', 'fallback_jwt_secret')
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 app.config['JWT_HEADER_NAME'] = "Cookie"
@@ -39,7 +39,7 @@ app.config['JWT_HEADER_NAME'] = "Cookie"
 # Initialize App 
 db.init_app(app)
 app.app_context().push()
-CORS(app)
+CORS(app, supports_credentials=True, origins=["http://localhost:5174"])
 jwt = JWTManager(app)
 
 
@@ -121,7 +121,7 @@ def login_action():
 @jwt_required()
 def predict_action():
     try:
-        data = request.form
+        data = request.get_json()
         input_data = {
             'credit.policy': [int(data['creditPolicy'])],
             'purpose': [data['purpose']],
@@ -160,7 +160,7 @@ def predict_action():
         db.session.add(client)
         db.session.commit()
 
-        return jsonify({"message": "Client added successfully"}), 200
+        return jsonify({"message": "Client added successfully", "prediction": prediction}), 200
 
     except Exception as e:
         print("Prediction error:", e)

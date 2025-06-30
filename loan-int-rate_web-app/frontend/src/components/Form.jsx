@@ -1,4 +1,6 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import {useNavigate} from 'react-router-dom';
 
 const Form = () => {
   const setRandom = (fieldId) => {
@@ -13,37 +15,56 @@ const Form = () => {
       pubRec: Math.floor(Math.random() * 6),              // 0 to 5
     };
 
-    const input = document.getElementById(fieldId);
-    if (input && randomValues[fieldId] !== undefined) {
-      input.value = randomValues[fieldId];
+    const value = randomValues[fieldId]
+    if (value !== undefined) {
+      setValue(fieldId, value);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Prediction submitted (add backend logic)');
-  };
+  const {register, handleSubmit, formState: {errors}, setValue} = useForm();
+  const navigate = useNavigate()
+
+  const onSubmit = async (data) => {
+    const response = await fetch("http://localhost:5000/predict", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+
+    const result = await response.json()
+
+    if (response.ok){
+        console.log(result.prediction)
+        navigate('/app')
+    }else{
+        alert("Prediction failed.")
+    }
+  }
 
   return (
     <div className="client-form-body">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-3">
           <label className="form-label">Full Name</label>
-          <input type="text" className="form-control" name="name" required />
+          <input type="text" className="form-control" name="name"
+          {...register("name", {required: true})} />
+          {errors.name && <p>Full name required</p>}
         </div>
 
         <div className="mb-3">
           <label className="form-label">Meets Bank's Credit Policy</label>
-          <select className="form-select" name="creditPolicy" required>
+          <select className="form-select" name="creditPolicy" {...register("creditPolicy", {required:true})}>
             <option value="">Select</option>
             <option value="0">Yes</option>
             <option value="1">No</option>
           </select>
+          {errors.creditPolicy && <p>This field is required</p>}
         </div>
 
         <div className="mb-3">
           <label className="form-label">Loan Purpose</label>
-          <select className="form-select" name="purpose" required>
+          <select className="form-select" name="purpose" {...register("purpose", {required: true})}>
             <option value="">Select</option>
             <option value="credit_card">Credit Card</option>
             <option value="debt_consolidation">Debt Consolidation</option>
@@ -53,6 +74,7 @@ const Form = () => {
             <option value="small_business">Small Business</option>
             <option value="all_other">All Other</option>
           </select>
+          {errors.purpose && <p>This field is required</p>}
         </div>
 
         {[
@@ -76,8 +98,9 @@ const Form = () => {
                 className="form-control"
                 name={field.name}
                 id={field.name}
-                required
+                {...register(field.name, {required:true})}
               />
+              {errors[field.name] && <p>This field is required</p>}
               <button
                 type="button"
                 className="btn-random"
@@ -91,7 +114,7 @@ const Form = () => {
 
         <div className="mb-3">
           <label className="form-label">Loan Not Fully Paid?</label>
-          <select className="form-select" name="notFullyPaid" required>
+          <select className="form-select" name="notFullyPaid" {...register("notFullyPaid", {required:true})}>
             <option value="">Select</option>
             <option value="0">Yes</option>
             <option value="1">No</option>
