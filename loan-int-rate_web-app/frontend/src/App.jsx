@@ -1,24 +1,36 @@
 import React from 'react';
 import Card from './components/Card';
 import Form from './components/Form';
+import { useEffect, useState } from 'react';
 
 const App = () => {
-  // Sample client data
-  const client = {
-    name: "Devern Chattergoon",
-    creditPolicy: "Yes",
-    purpose: "credit_card",
-    dti: 0.25,
-    fico: 720,
-    logAnnInc: 10.5,
-    daysWithCrLine: 1500,
-    revolUtil: 20.5,
-    inqLast6Mon: 1,
-    delinq2Years: 0,
-    pubRec: 0,
-    notFullyPaid: "No",
-    intRate: 7.5,
-  };
+
+  const [clientList, setClientList] = useState([]);
+
+
+  const fetchClients = async () => {
+    const response = await fetch ("http://localhost:5000/clients", {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include'
+    })
+
+    const result = await response.json();
+    if (response.ok){
+      console.log("Clients fetched successfuly")
+      console.log(result)
+    }else{
+      console.log("Failed to fetch clients")
+      setClientList([])
+    }
+    setClientList(result || [])
+
+  }
+
+  useEffect(() => {
+    fetchClients();
+  }, [])
+
 
   const purpose_map = {
     credit_card: "Credit Card",
@@ -54,9 +66,9 @@ const App = () => {
             <h3>Client List</h3>
           </div>
           <div className="client-list">
-            <Card client={client} purpose_map={purpose_map} />
-            <Card client={client} purpose_map={purpose_map} />
-            <Card client={client} purpose_map={purpose_map} />
+            {clientList.map((client) => (
+              <Card key={client.id} client={client} purpose_map={purpose_map}/>
+            ))}
           </div>
         </div>
 
@@ -67,7 +79,7 @@ const App = () => {
             <h3>Add New Client</h3>
           </div>
           {/* Form Body */}
-          <Form />
+          <Form onClientAdded={fetchClients}/>
         </div>
       </div>
     </div>

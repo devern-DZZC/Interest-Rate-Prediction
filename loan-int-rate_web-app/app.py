@@ -166,6 +166,34 @@ def predict_action():
         print("Prediction error:", e)
         return jsonify({"error": "Invalid input or prediction failed"}), 400
 
+@app.route("/clients", methods=["GET"])
+@jwt_required()
+def get_clients():
+    user_clients = Client.query.filter_by(user_id=current_user.id).all()
+
+    clients_list = [
+        {
+            "id": client.id,
+            "name": client.name,
+            "creditPolicy": client.creditPolicy,
+            "purpose": client.purpose,
+            "dti": client.dti,
+            "fico": client.fico,
+            "logAnnInc": client.logAnnInc,
+            "daysWithCrLine": client.daysWithCrLine,
+            "revolUtil": client.revolUtil,
+            "inqLast6Mon": client.inqLast6Mon,
+            "delinq2Years": client.delinq2Years,
+            "pubRec": client.pubRec,
+            "notFullyPaid": client.notFullyPaid,
+            "intRate": client.intRate
+        }
+        for client in user_clients
+    ]
+
+    return jsonify(clients_list), 200
+
+
 @app.route("/delete/<int:client_id>", methods=["GET"])
 @jwt_required()
 def delete_action(client_id):

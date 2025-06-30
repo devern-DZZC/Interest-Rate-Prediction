@@ -1,8 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import {useNavigate} from 'react-router-dom';
 
-const Form = () => {
+const Form = ({onClientAdded}) => {
   const setRandom = (fieldId) => {
     const randomValues = {
       logAnnInc: (Math.random() * 2.5 + 10).toFixed(2), // 10.0 to 12.5
@@ -21,8 +20,7 @@ const Form = () => {
     }
   };
 
-  const {register, handleSubmit, formState: {errors}, setValue} = useForm();
-  const navigate = useNavigate()
+  const {register, handleSubmit, formState: {errors}, setValue, reset} = useForm();
 
   const onSubmit = async (data) => {
     const response = await fetch("http://localhost:5000/predict", {
@@ -36,7 +34,8 @@ const Form = () => {
 
     if (response.ok){
         console.log(result.prediction)
-        navigate('/app')
+        if(onClientAdded) onClientAdded()
+        reset()
     }else{
         alert("Prediction failed.")
     }
