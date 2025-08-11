@@ -54,7 +54,7 @@ a:hover, a:focus {
 button, input[type="submit"] {
   cursor: pointer;
   font-family: var(--font-heading);
-  background-color: var(--primary-color);
+  background-color: #8739f9;
   border: none;
   padding: var(--spacing-sm) var(--spacing-md);
   color: white;
@@ -63,7 +63,7 @@ button, input[type="submit"] {
 }
 
 button:hover, input[type="submit"]:hover {
-  background-color: rgb(0, 0, 106);
+  background-color: #441b80;
 }
 
 /* Scrollbar (WebKit) */

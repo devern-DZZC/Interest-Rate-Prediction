@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 250px;
     height: 100vh;
     background-color: #1e293b; /* dark blue-gray */
     color: #f1f5f9; /* light gray */
@@ -23,7 +23,7 @@
   }
   
   .side-nav-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     text-align: center;
     margin-bottom: 3rem;
@@ -116,5 +116,26 @@
       font-size: 1rem;
       border-radius: 8px;
     }
+  }
+
+  .logout-container {
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .logout-btn {
+    width: 100%;
+    background-color: #8739f9;
+    color: white;
+    border: none;
+    padding: 0;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #6a2cc4;
   }
   
