@@ -6,14 +6,12 @@ const SideNav = () => {
   const navigate = useNavigate();
 
   // eslint-disable-next-line no-undef
-  const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://loan-advisor.azurewebsites.net' 
-  : 'http://localhost:5004'; // or your backend port
+  const API_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8001';
 
   const logout = async (e) => {
 
     e.preventDefault();
-    const response = await fetch(`${API_BASE_URL}/logout`, {
+    const response = await fetch(`${API_BASE_URL}/api/logout`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'

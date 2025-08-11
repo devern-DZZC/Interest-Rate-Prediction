@@ -5,11 +5,8 @@ import SideNav from '../../components/SideNav';
 import ShapImportanceChart from '../../components/ShapImportanceChart';
 import './Analysis.css';
 
-const API_BASE_URL = 
   // eslint-disable-next-line no-undef
-  process.env.NODE_ENV === 'production'
-  ? 'https://loan-advisor.azurewebsites.net'
-  : 'http://localhost:5004';
+  const API_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8001';
 
 const Analysis = () => {
   const { clientId: paramClientId } = useParams();
@@ -24,7 +21,7 @@ const Analysis = () => {
 
   useEffect(() => {
     setLoadingClients(true);
-    fetch(`${API_BASE_URL}/clients`, {
+    fetch(`${API_BASE_URL}/api/clients`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include'
@@ -51,7 +48,7 @@ const Analysis = () => {
     setLoadingClientData(true);
     setError(null);
 
-    fetch(`${API_BASE_URL}/clients/${selectedClientId}`, {
+    fetch(`${API_BASE_URL}/api/clients/${selectedClientId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

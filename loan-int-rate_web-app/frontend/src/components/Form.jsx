@@ -24,12 +24,10 @@ const Form = ({onClientAdded}) => {
   const {register, handleSubmit, formState: {errors}, setValue, reset} = useForm();
 
   // eslint-disable-next-line no-undef
-  const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://loan-advisor.azurewebsites.net' 
-  : 'http://localhost:5004'; // or your backend port
+  const API_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8001';
 
   const onSubmit = async (data) => {
-    const response = await fetch(`${API_BASE_URL}/predict`, {
+    const response = await fetch(`${API_BASE_URL}/api/predict`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',

@@ -1,7 +1,7 @@
 import os
 import io
 import datetime
-from flask import Flask, request, redirect, jsonify, send_file
+from flask import Flask, request, redirect, jsonify, send_from_directory
 from flask_cors import CORS
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import (
@@ -19,7 +19,7 @@ import matplotlib
 matplotlib.use('Agg')  # use non-interactive backend for server
 import matplotlib.pyplot as plt
 
-from models import db, User, Client
+from app.models import db, User, Client
 
 # ----------------------
 # Startup / model load
@@ -29,12 +29,6 @@ model = joblib.load('model/prediction.pkl')
 transformer = joblib.load('model/transformer.pkl')
 print('Model Loaded!')
 
-# Use underlying estimator if RandomizedSearchCV / GridSearchCV was used
-estimator_for_explainer = model.best_estimator_ if hasattr(model, 'best_estimator_') else model
-explainer = shap.Explainer(estimator_for_explainer)
-
-# Hard-coded feature names for transformed data (adjust if your transformer order differs)
-# 7 one-hot purpose columns + numeric features
 all_features = [
     'purpose_all_other',
     'purpose_credit_card',
@@ -55,31 +49,9 @@ all_features = [
     'not.fully.paid'
 ]
 
-# Try to load a CSV of transformed (or raw) training data for summary/dependence plots.
-# If you prefer to save the transformed training data csv, point full_dataset_path to that file.
-full_dataset_path = os.path.join('model', 'trans_training_data.csv')  # prefer transformed X saved earlier
-full_data_raw = None
-full_data_transformed = None
-
-try:
-    # If you have raw training CSV and need transformer applied, adjust accordingly.
-    full_data_transformed = pd.read_csv(full_dataset_path)
-    # If it is a DataFrame of transformed features already, ensure shape matches all_features
-    if list(full_data_transformed.shape)[1] == len(all_features):
-        # ok, full_data_transformed is a numeric DataFrame of transformed features
-        pass
-    else:
-        # try loading raw and transforming (fallback)
-        full_data_raw = pd.read_csv(os.path.join('model', 'training_data.csv'))
-        full_data_transformed = transformer.transform(full_data_raw)
-        # if sparse convert to array
-        if hasattr(full_data_transformed, 'toarray'):
-            full_data_transformed = full_data_transformed.toarray()
-except Exception as e:
-    # warn but continue — per-client SHAP will still work
-    print(f"Warning: Could not load full dataset for SHAP plots: {e}")
-    full_data_raw = None
-    full_data_transformed = None
+# Use underlying estimator if RandomizedSearchCV / GridSearchCV was used
+estimator_for_explainer = model.best_estimator_ if hasattr(model, 'best_estimator_') else model
+explainer = shap.Explainer(estimator_for_explainer)
 
 # ----------------------
 # Flask app config
@@ -103,11 +75,7 @@ app.config['JWT_HEADER_NAME'] = "Cookie"
 db.init_app(app)
 app.app_context().push()
 
-CORS(app, supports_credentials=True, origins=[
-    "http://localhost:5174",
-    "http://localhost:5173",
-    "https://loan-advisor.azurewebsites.net"
-])
+CORS(app, supports_credentials=True, origins=['*'])
 
 jwt = JWTManager(app)
 
@@ -210,12 +178,20 @@ def predict_and_save_client(data, user_id):
 # ----------------------
 # Routes: auth, predict, clients, upload, delete
 # ----------------------
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, "index.html")
+    
 @app.route('/init', methods=['GET'])
 def init():
     initialize_db()
     return redirect('/')
 
-@app.route("/signup", methods=['POST'])
+@app.route("/api/signup", methods=['POST'])
 def signup_action():
     try:
         data = request.get_json()
@@ -232,14 +208,14 @@ def signup_action():
         response = jsonify({"error": "Failed to create account"})
         return response, 401
 
-@app.route("/logout", methods=['GET'])
+@app.route("/api/logout", methods=['GET'])
 @jwt_required()
 def logout_action():
     response = jsonify({"msg": "Logged out"})
     unset_jwt_cookies(response)
     return response, 200
 
-@app.route("/login", methods=['POST'])
+@app.route("/api/login", methods=['POST'])
 def login_action():
     data = request.get_json()
     username = data.get('username')
@@ -251,7 +227,7 @@ def login_action():
         return response, 200
     return jsonify({"error": "Invalid credentials"}), 401
 
-@app.route("/predict", methods=['POST'])
+@app.route("/api/predict", methods=['POST'])
 @jwt_required()
 def predict_action():
     try:
@@ -264,7 +240,7 @@ def predict_action():
         print("Prediction error:", e)
         return jsonify({"error": "Invalid input or prediction failed"}), 400
 
-@app.route("/clients", methods=["GET"])
+@app.route("/api/clients", methods=["GET"])
 @jwt_required()
 def get_clients():
     user_clients = Client.query.filter_by(user_id=current_user.id).all()
@@ -323,7 +299,7 @@ def upload_csv():
         print("CSV upload error:", e)
         return jsonify({"error": "Failed to process CSV file", "detail": str(e)}), 500
 
-@app.route("/clients/<int:client_id>", methods=["GET"])
+@app.route("/api/clients/<int:client_id>", methods=["GET"])
 @jwt_required()
 def get_client_by_id(client_id):
     client = Client.query.filter_by(id=client_id, user_id=current_user.id).first()
@@ -372,7 +348,7 @@ def get_client_by_id(client_id):
     }
     return jsonify(client_dict), 200
 
-@app.route("/delete/<int:client_id>", methods=["DELETE"])
+@app.route("/api/delete/<int:client_id>", methods=["DELETE"])
 @jwt_required()
 def delete_action(client_id):
     res = current_user.delete_client(client_id)
@@ -418,7 +394,3 @@ def shap_force_plot(client_id):
     except Exception as e:
         print("Error generating force plot:", e)
         return jsonify({"error": f"Failed to generate force plot: {e}"}), 500
-
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)

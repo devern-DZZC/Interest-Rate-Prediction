@@ -7,18 +7,16 @@ const Auth = ({ isNewUser }) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const API_BASE_URL =
     // eslint-disable-next-line no-undef
-    process.env.NODE_ENV === 'production'
-      ? 'https://loan-advisor.azurewebsites.net'
-      : 'http://localhost:5004';
+    const API_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8001';
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}${isNewUser ? '/signup' : '/login'}`,
+        `${API_BASE_URL}${isNewUser ? '/api/signup' : '/api/login'}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

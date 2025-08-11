@@ -7,15 +7,12 @@ import './Dashboard.css';
 const Dashboard = () => {
   const [clientList, setClientList] = useState([]);
 
-  const API_BASE_URL =
-    // eslint-disable-next-line no-undef
-    process.env.NODE_ENV === 'production'
-      ? 'https://loan-advisor.azurewebsites.net'
-      : 'http://localhost:5004';
+  // eslint-disable-next-line no-undef
+  const API_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8001';
 
   const fetchClients = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/clients`, {
+      const response = await fetch(`${API_BASE_URL}/api/clients`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
