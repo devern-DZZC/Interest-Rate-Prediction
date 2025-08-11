@@ -1,96 +1,133 @@
 /* globals.css */
 
-/* Reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  font-size: var(--font-size-base);
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  font-family: var(--font-body);
-  overflow-x: hidden;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  color: var(--primary-color);
-  margin: 0 0 var(--spacing-sm) 0;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-p, span, a, button {
-  font-family: var(--font-body);
-  color: var(--text-color);
-  margin: 0;
-  line-height: 1.5;
-}
-
-a {
-  color: var(--primary-color);
-  text-decoration: none;
-  transition: color var(--transition-speed);
-}
-
-a:hover, a:focus {
-  color: var(--secondary-color);
-  outline: none;
-}
-
-/* Buttons */
-button, input[type="submit"] {
-  cursor: pointer;
-  font-family: var(--font-heading);
-  background-color: #8739f9;
-  border: none;
-  padding: var(--spacing-sm) var(--spacing-md);
-  color: white;
-  border-radius: var(--border-radius);
-  transition: background-color var(--transition-speed);
-}
-
-button:hover, input[type="submit"]:hover {
-  background-color: #441b80;
-}
-
-/* Scrollbar (WebKit) */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background-color);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color);
-  border-radius: 4px;
-  border: 2px solid var(--background-color);
-}
-
-/* Utility classes */
-.text-center {
-  text-align: center;
-}
-
-.container {
-  max-width: 1280px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--spacing-md);
-  padding-right: var(--spacing-md);
-}
+/* CSS Variables for theming */
+:root {
+    --font-size-base: 16px;
+    --font-body: 'Arial', sans-serif;
+    --font-heading: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --primary-color: #8739f9;
+    --secondary-color: #441b80;
+    --background-color: #f9f9fb;
+    --card-bg: #ffffff;
+    --text-color: #222222;
+    --text-muted: #666666;
+    --border-color: #cccccc;
+    --border-radius: 12px;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --transition-speed: 0.3s;
+  }
+  
+  /* Reset */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  html {
+    font-size: var(--font-size-base);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    width: 100%;
+  }
+  
+  body, html, #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+    margin: 0 0 var(--spacing-sm) 0;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  p, span, a, button {
+    font-family: var(--font-body);
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+  }
+  
+  a:hover, a:focus {
+    color: var(--secondary-color);
+    outline: none;
+  }
+  
+  /* Buttons */
+  button, input[type="submit"] {
+    cursor: pointer;
+    font-family: var(--font-heading);
+    background-color: var(--primary-color);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: white;
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-speed);
+  }
+  
+  button:hover, input[type="submit"]:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  /* Scrollbar (WebKit) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--background-color);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+    border: 2px solid var(--background-color);
+  }
+  
+  /* Utility classes */
+  .text-center {
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+  
+  /* Make root container full width and height */
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100vw;
+  }
+  
+  /* Optional: force body and html to use full viewport width/height */
+  body, html {
+    min-height: 100vh;
+    min-width: 100vw;
+  }
+  

@@ -5,6 +5,7 @@ import './SideNav.css';
 const SideNav = () => {
   const navigate = useNavigate();
 
+  // eslint-disable-next-line no-undef
   const API_BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://loan-advisor.azurewebsites.net' 
   : 'http://localhost:5004'; // or your backend port

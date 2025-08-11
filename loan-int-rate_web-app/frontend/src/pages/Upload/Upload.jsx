@@ -32,6 +32,7 @@ const Upload = () => {
     formData.append('file', file);
 
     const API_BASE_URL =
+      // eslint-disable-next-line no-undef
       process.env.NODE_ENV === 'production'
         ? 'https://loan-advisor.azurewebsites.net'
         : 'http://localhost:5004';

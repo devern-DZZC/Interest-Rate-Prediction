@@ -42,7 +42,7 @@
     align-items: center;
   }
   
-  .btn-view,
+  .btn-analyze,
   .btn-delete {
     padding: 0.35rem 0.75rem;
     border-radius: 6px;
@@ -55,7 +55,7 @@
     flex-shrink: 0; /* prevent shrinking */
   }
   
-  .btn-view {
+  .btn-analyze {
     background-color: #8739f9;
     color: white;
   }
@@ -80,7 +80,7 @@
       font-size: 0.8rem;
     }
   
-    .btn-view,
+    .btn-analyze,
     .btn-delete {
       padding: 0.3rem 0.5rem;
       font-size: 0.75rem;

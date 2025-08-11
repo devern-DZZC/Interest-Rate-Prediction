@@ -1,8 +1,11 @@
 import React from 'react';
 import './CardTable.css';
+import { useNavigate } from 'react-router-dom';
 
-const CardTable = ({ customers, onView, onDelete }) => {
+const CardTable = ({ customers, onDelete }) => {
+    const navigate = useNavigate();
   const API_BASE_URL =
+    // eslint-disable-next-line no-undef
     process.env.NODE_ENV === 'production'
       ? 'https://loan-advisor.azurewebsites.net'
       : 'http://localhost:5004';
@@ -43,13 +46,13 @@ const CardTable = ({ customers, onView, onDelete }) => {
               <td>{formattedRate}</td>
               <td>
                 <div className="action-buttons">
-                  <button
-                    className="btn-view"
-                    onClick={() => onView(cust.id)}
-                    aria-label={`View details of ${cust.fullName || cust.name}`}
-                  >
-                    Analyze
-                  </button>
+                <button
+                  className="btn-analyze"
+                  onClick={() => navigate(`/analysis/${cust.id}`)}
+                  aria-label={`Analyze client ${cust.name}`}
+                >
+                  Analyze
+                </button>
                   <button
                     className="btn-delete"
                     onClick={(e) => handleDelete(e, cust.id)}
