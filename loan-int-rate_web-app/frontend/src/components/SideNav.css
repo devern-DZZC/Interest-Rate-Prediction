@@ -1,0 +1,120 @@
+/* SideNav.css */
+
+.side-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: #1e293b; /* dark blue-gray */
+    color: #f1f5f9; /* light gray */
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    box-shadow: 3px 0 15px rgba(30, 41, 59, 0.3);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+  }
+  
+  .side-nav:hover {
+    background-color: #273449; /* slightly lighter on hover */
+  }
+  
+  .side-nav-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 3rem;
+    letter-spacing: 2px;
+    color: #38bdf8; /* bright cyan */
+    text-transform: uppercase;
+    user-select: text;
+    text-shadow: 0 0 8px #0ea5e9;
+  }
+  
+  .side-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .side-nav li {
+    /* spacing handled by gap */
+  }
+  
+  .side-nav a {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    color: #cbd5e1; /* lighter gray */
+    font-weight: 600;
+    font-size: 1.15rem;
+    text-decoration: none;
+    background-color: transparent;
+    transition: all 0.25s ease;
+    box-shadow: inset 0 0 0 0 transparent;
+    user-select: none;
+  }
+  
+  .side-nav a:hover {
+    background-color: #0ea5e9; /* bright cyan background */
+    color: white;
+    box-shadow: 0 4px 10px rgba(14, 165, 233, 0.6);
+    transform: translateX(4px);
+  }
+  
+  .side-nav a.active-link {
+    background-color: #0284c7; /* darker cyan */
+    color: #e0f2fe; /* very light cyan */
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.8);
+    cursor: default;
+    pointer-events: none;
+    transform: translateX(4px);
+  }
+  
+  .side-nav a svg {
+    margin-right: 0.75rem;
+    fill: currentColor;
+    transition: fill 0.3s ease;
+  }
+  
+  /* Responsive: collapse sidenav on small screens */
+  
+  @media (max-width: 768px) {
+    .side-nav {
+      position: relative;
+      width: 100%;
+      height: auto;
+      flex-direction: row;
+      padding: 1rem;
+      box-shadow: none;
+    }
+  
+    .side-nav-title {
+      flex: 1 0 auto;
+      font-size: 1.5rem;
+      margin-bottom: 0;
+      user-select: none;
+    }
+  
+    .side-nav ul {
+      flex-direction: row;
+      gap: 1rem;
+      flex-grow: 0;
+    }
+  
+    .side-nav a {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+    }
+  }
+  

@@ -1,0 +1,58 @@
+.card-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg, #fff);
+    border-radius: var(--border-radius, 12px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .card-table th,
+  .card-table td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 1rem;
+    color: var(--text-color, #333);
+  }
+  
+  .card-table thead {
+    background-color: var(--primary-color, #0ea5e9);
+    color: white;
+    font-weight: 700;
+  }
+  
+  .card-table tbody tr:hover {
+    background-color: #f0faff;
+  }
+  
+  .btn-view,
+  .btn-delete {
+    margin-right: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+  
+  .btn-view {
+    background-color: var(--secondary-color, #2563eb);
+    color: white;
+  }
+  
+  .btn-view:hover {
+    background-color: #1e40af;
+  }
+  
+  .btn-delete {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background-color: #b91c1c;
+  }
+  

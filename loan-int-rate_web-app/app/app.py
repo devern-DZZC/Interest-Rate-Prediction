@@ -1,6 +1,6 @@
 import os, csv
 import datetime
-from flask import Flask, request, redirect, render_template, url_for, flash, jsonify
+from flask import Flask, request, redirect, render_template, url_for, flash, jsonify, request
 from flask_cors import CORS
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import (
@@ -39,7 +39,9 @@ app.config['JWT_HEADER_NAME'] = "Cookie"
 # Initialize App 
 db.init_app(app)
 app.app_context().push()
-CORS(app, supports_credentials=True, origins=["http://localhost:5174"])
+CORS(app, supports_credentials=True, origins=["http://localhost:5174",
+                                              "http://localhost:5173",
+                                              "https://loan-advisor.azurewebsites.net"])
 jwt = JWTManager(app)
 
 
@@ -66,6 +68,53 @@ def initialize_db():
   user = User(username='bob', password='bobpass')
   db.session.add(user)
   db.session.commit()
+
+def predict_and_save_client(data, user_id):
+    try:
+        input_data = {
+            'credit.policy': [int(data['creditPolicy'])],
+            'purpose': [data['purpose']],
+            'log.annual.inc': [float(data['logAnnInc'])],
+            'dti': [float(data['dti'])],
+            'fico': [int(data['fico'])],
+            'days.with.cr.line': [float(data['daysWithCrLine'])],
+            'revol.util': [float(data['revolUtil'])],
+            'inq.last.6mths': [int(data['inqLast6Mon'])],
+            'delinq.2yrs': [int(data['delinq2Years'])],
+            'pub.rec': [int(data['pubRec'])],
+            'not.fully.paid': [int(data['notFullyPaid'])]
+        }
+        
+        input_df = pd.DataFrame(input_data)
+        transformed_X = transformer.transform(input_df)
+        pred = model.predict(transformed_X)
+        prediction = round(float(pred[0]) * 100, 1)
+        
+        client = Client(
+            name=str(data["name"]),
+            creditPolicy=int(data["creditPolicy"]),  
+            purpose=str(data["purpose"]),
+            dti=float(data["dti"]),
+            fico=int(data["fico"]),
+            logAnnInc=float(data["logAnnInc"]),
+            daysWithCrLine=float(data["daysWithCrLine"]),
+            revolUtil=float(data["revolUtil"]),
+            inqLast6Mon=int(data["inqLast6Mon"]),
+            delinq2Years=int(data["delinq2Years"]),
+            pubRec=int(data["pubRec"]),
+            notFullyPaid=int(data["notFullyPaid"]),  
+            user_id=user_id,
+            intRate=float(prediction)
+        )
+        db.session.add(client)
+        db.session.commit()
+        
+        return {"success": True, "prediction": prediction, "name": data.get("name", "")}
+    except Exception as e:
+        print("Error processing client:", e)
+        db.session.rollback()
+        return {"success": False, "error": str(e), "name": data.get("name", "")}
+
 
 @app.route('/init', methods=['GET'])
 def init():
@@ -122,49 +171,15 @@ def login_action():
 def predict_action():
     try:
         data = request.get_json()
-        input_data = {
-            'credit.policy': [int(data['creditPolicy'])],
-            'purpose': [data['purpose']],
-            'log.annual.inc': [float(data['logAnnInc'])],
-            'dti': [float(data['dti'])],
-            'fico': [int(data['fico'])],
-            'days.with.cr.line': [float(data['daysWithCrLine'])],
-            'revol.util': [float(data['revolUtil'])],
-            'inq.last.6mths': [int(data['inqLast6Mon'])],
-            'delinq.2yrs': [int(data['delinq2Years'])],
-            'pub.rec': [int(data['pubRec'])],
-            'not.fully.paid': [int(data['notFullyPaid'])] 
-        }
-
-        input_df = pd.DataFrame(input_data)
-        transformed_X = transformer.transform(input_df)
-        pred = model.predict(transformed_X)
-        prediction = round(float(pred[0]) * 100, 1)
-
-        client = Client(
-            name=str(data["name"]),
-            creditPolicy=int(data["creditPolicy"]),  
-            purpose=str(data["purpose"]),
-            dti=float(data["dti"]),
-            fico=int(data["fico"]),
-            logAnnInc=float(data["logAnnInc"]),
-            daysWithCrLine=float(data["daysWithCrLine"]),
-            revolUtil=float(data["revolUtil"]),
-            inqLast6Mon=int(data["inqLast6Mon"]),
-            delinq2Years=int(data["delinq2Years"]),
-            pubRec=int(data["pubRec"]),
-            notFullyPaid=int(data["notFullyPaid"]),  
-            user_id=current_user.id,
-            intRate=float(prediction)
-        )
-        db.session.add(client)
-        db.session.commit()
-
-        return jsonify({"message": "Client added successfully", "prediction": prediction}), 200
-
+        result = predict_and_save_client(data, current_user.id)
+        if result["success"]:
+            return jsonify({"message": "Client added successfully", "prediction": result["prediction"]}), 200
+        else:
+            return jsonify({"error": result.get("error", "Prediction failed")}), 400
     except Exception as e:
         print("Prediction error:", e)
         return jsonify({"error": "Invalid input or prediction failed"}), 400
+
 
 @app.route("/clients", methods=["GET"])
 @jwt_required()
@@ -192,6 +207,55 @@ def get_clients():
     ]
 
     return jsonify(clients_list), 200
+
+
+@app.route('/api/upload', methods=['POST'])
+@jwt_required()
+def upload_csv():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    if not file.filename.endswith('.csv'):
+        return jsonify({"error": "File must be a CSV"}), 400
+
+    try:
+        # Read CSV into pandas dataframe
+        df = pd.read_csv(file)
+
+        # Optional: validate columns exist in df here before processing
+
+        results = []
+        for _, row in df.iterrows():
+            # Convert row to dict with keys matching your /predict data
+            data = {
+                "name": row.get("full.name") or row.get("Name") or "",  # Adjust if your CSV uses different headers
+                "creditPolicy": row.get("creditPolicy") or row.get("credit.policy"),
+                "purpose": row.get("purpose"),
+                "logAnnInc": row.get("logAnnInc") or row.get("log.annual.inc"),
+                "dti": row.get("dti"),
+                "fico": row.get("fico"),
+                "daysWithCrLine": row.get("daysWithCrLine") or row.get("days.with.cr.line"),
+                "revolUtil": row.get("revolUtil") or row.get("revol.util"),
+                "inqLast6Mon": row.get("inqLast6Mon") or row.get("inq.last.6mths"),
+                "delinq2Years": row.get("delinq2Years") or row.get("delinq.2yrs"),
+                "pubRec": row.get("pubRec") or row.get("pub.rec"),
+                "notFullyPaid": row.get("notFullyPaid") or row.get("not.fully.paid"),
+            }
+
+            # Call helper to predict and save
+            res = predict_and_save_client(data, current_user.id)
+            results.append(res)
+
+        return jsonify({"message": "CSV processed", "results": results}), 200
+
+    except Exception as e:
+        print("CSV upload error:", e)
+        return jsonify({"error": "Failed to process CSV file"}), 500
+
 
 
 @app.route("/delete/<int:client_id>", methods=["DELETE"])

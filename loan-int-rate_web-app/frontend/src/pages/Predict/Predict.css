@@ -1,0 +1,107 @@
+:root {
+    --background-color: #f5f7fa;
+    --primary-color: #0ea5e9; /* bright cyan */
+    --text-color: #333;
+    --card-bg: #ffffff;
+    --border-radius: 12px;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --sidenav-width: 250px;
+    --transition-speed: 0.3s;
+    --primary-color-dark: #0b79c1;
+  }
+  
+  /* Layout container: side nav + content */
+  .layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Content container to the right of sidenav */
+  .content {
+    flex-grow: 1;
+    padding: 3rem 4rem;
+    margin-left: var(--sidenav-width);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+    /* Remove align-items center to avoid shrinking and conflict */
+  }
+  
+  /* Page header: title + subtitle, centered horizontally */
+  .page-header {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 2.5rem auto;
+    text-align: center;
+  }
+  
+  .page-header h1 {
+    font-size: 2.75rem;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem 0;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+  }
+  
+  .page-header p {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  
+  /* Form container */
+  .form-page {
+    background: var(--card-bg);
+    padding: 3rem 3.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 24px var(--shadow-color);
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto; /* center horizontally */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 992px) {
+    .content {
+      margin-left: 0;
+      padding: 2rem 2rem;
+    }
+  
+    .page-header {
+      max-width: 100%;
+    }
+  
+    .form-page {
+      padding: 2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .page-header h1 {
+      font-size: 1.9rem;
+    }
+  
+    .page-header p {
+      font-size: 1rem;
+    }
+  
+    .form-page {
+      padding: 1.5rem 1.5rem;
+      border-radius: 10px;
+    }
+  }
+  

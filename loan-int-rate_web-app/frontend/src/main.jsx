@@ -1,20 +1,33 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import App from './App.jsx'
 import Auth from './components/Auth.jsx';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Dashboard from './pages/Dashboard/Dashboard.jsx'; // renamed import
+import Predict from './pages/Predict/Predict.jsx';
+import Upload from './pages/Upload/Upload.jsx'; // Uncomment and adjust path once ready
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Auth isNewUser={false}/>} />
-        <Route path="/signup" element={<Auth isNewUser={true}/>} />
-        <Route path="/app" element={<App />} />
+        {/* Auth Routes */}
+        <Route path="/" element={<Auth isNewUser={false} />} />
+        <Route path="/signup" element={<Auth isNewUser={true} />} />
+
+        {/* Redirect /app to /dashboard (cleaner naming) */}
+        <Route path="/app" element={<Navigate to="/dashboard" replace />} />
+
+        {/* Main App Pages */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/predict" element={<Predict />} />
+        <Route path="/upload" element={<Upload />} />
+
+        {/* Catch-all redirect */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
-)
+);

@@ -7,7 +7,12 @@ const Card = ({ client, purpose_map, onDelete }) => {
   const handleDelete = async (e, id) => {
     e.preventDefault()
 
-    const response = await fetch(`http://localhost:5000/delete/${id}`, {
+    // eslint-disable-next-line no-undef
+    const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://loan-advisor.azurewebsites.net' 
+    : 'http://localhost:5004';
+
+    const response = await fetch(`${API_BASE_URL}/delete/${id}`, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include'

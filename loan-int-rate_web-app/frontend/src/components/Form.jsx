@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import './Form.css';
 
 const Form = ({onClientAdded}) => {
   const setRandom = (fieldId) => {
@@ -22,8 +23,13 @@ const Form = ({onClientAdded}) => {
 
   const {register, handleSubmit, formState: {errors}, setValue, reset} = useForm();
 
+  // eslint-disable-next-line no-undef
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://loan-advisor.azurewebsites.net' 
+  : 'http://localhost:5004'; // or your backend port
+
   const onSubmit = async (data) => {
-    const response = await fetch("http://localhost:5000/predict", {
+    const response = await fetch(`${API_BASE_URL}/predict`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
