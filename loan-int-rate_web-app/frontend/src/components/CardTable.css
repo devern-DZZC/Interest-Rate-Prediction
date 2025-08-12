@@ -1,0 +1,89 @@
+.card-table {
+    width: 100%;
+    max-width: 600px; /* Limit max width for smaller table */
+    border-collapse: separate; /* Allows rounded corners */
+    border-spacing: 0;
+    background: var(--card-bg, #fff);
+    border-radius: var(--border-radius, 12px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    table-layout: fixed; /* Fix cell width for uniformity */
+  }
+  
+  .card-table th,
+  .card-table td {
+    padding: 0.75rem 1rem; /* Slightly smaller padding for compactness */
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9rem; /* Slightly smaller font */
+    color: var(--text-color, #333);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .card-table th {
+    background-color: var(--primary-color, #8739f9);
+    color: whitesmoke;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  
+  .card-table tbody tr:hover {
+    background-color: #f0faff;
+    cursor: pointer;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap; /* keep buttons side by side */
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .btn-analyze,
+  .btn-delete {
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    font-size: 0.85rem;
+    white-space: nowrap; /* prevent button text wrap */
+    flex-shrink: 0; /* prevent shrinking */
+  }
+  
+  .btn-analyze {
+    background-color: #8739f9;
+    color: white;
+  }
+  
+  .btn-view:hover {
+    background-color: #6e2ee6;
+  }
+  
+  .btn-delete {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background-color: #b91c1c;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 480px) {
+    .card-table {
+      max-width: 100%;
+      font-size: 0.8rem;
+    }
+  
+    .btn-analyze,
+    .btn-delete {
+      padding: 0.3rem 0.5rem;
+      font-size: 0.75rem;
+    }
+  }
+  

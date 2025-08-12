@@ -1,86 +1,108 @@
-import React from 'react';
-import { Link,useNavigate } from 'react-router-dom';
-import {useState} from 'react'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Auth.css';
 
-const Auth = ({isNewUser}) => {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const navigate = useNavigate()
+const Auth = ({ isNewUser }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+    // eslint-disable-next-line no-undef
+    const API_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8001';
 
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(isNewUser ? 'http://localhost:5000/signup' : 'http://localhost:5000/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
-        body: JSON.stringify({username, password})
-    })
 
-    const result = await response.json();
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}${isNewUser ? '/api/signup' : '/api/login'}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
-    if (response.ok) {
-        localStorage.setItem("token", result.token)
-        navigate('/app')
-    } else
-        alert("Invalid username or password");
+      const result = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', result.token);
+        navigate('/dashboard');
+      } else {
+        alert(result.message || 'Invalid username or password');
+      }
+    } catch (err) {
+      console.error('Auth request failed:', err);
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   return (
-    <div>
-      <div className="card">
-        <div className="card__img" id={isNewUser ? "img02":"img01"}></div>
-        <div className="card__content">
-          <h2 className="card__content-header">
-            Welcome to LoanAdvisor
-         </h2>
-          <p className="card__content-theme">
-            {isNewUser ? 'Create an account' :'Log in to your account'}
+    <main className="auth-page">
+      <section className="auth-card">
+        <div
+          className={`auth-image ${isNewUser ? 'signup-img' : 'login-img'}`}
+          aria-hidden="true"
+        />
+        <div className="auth-content">
+          <h1 className="auth-title">Welcome to LoanAdvisor</h1>
+          <p className="auth-subtitle">
+            {isNewUser
+              ? 'Create an account to get started'
+              : 'Log in to your account'}
           </p>
 
-          <form id="loginForm" onSubmit={handleSubmit} style={{ padding: '1em' }}>
-            <div className="row">
-              <div className="input-field col s12">
-                <input
-                  placeholder="Username"
-                  name="username"
-                  type="text"
-                  className="validate"
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
+          <form className="auth-form" onSubmit={handleSubmit} noValidate>
+            <label htmlFor="username" className="auth-label">
+              Username
+            </label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              className="auth-input"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              autoComplete="username"
+            />
 
-            <div className="row">
-              <div className="input-field col s12">
-                <input
-                  placeholder="Password"
-                  name="password"
-                  type="password"
-                  className="validate"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
+            <label htmlFor="password" className="auth-label">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              className="auth-input"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete={isNewUser ? 'new-password' : 'current-password'}
+            />
 
-            <div className="card-action">
-              <input type="submit" value={isNewUser ? "Sign Up" : "Log In"} className="btn" id='btn'/>
-            </div>
+            <button type="submit" className="btn-auth">
+              {isNewUser ? 'Sign Up' : 'Log In'}
+            </button>
           </form>
 
-          <div className="alt-text">
-            <span>
-                {isNewUser? "Already have an account?" : "Don't have an account yet?"}
-            </span>{' '}
-            <Link to= {isNewUser ? "/" : "/signup"} style={{ color: '#256215' }}>
-              {isNewUser ? 'Log in': 'Sign up'}
+          <p className="auth-switch">
+            {isNewUser ? 'Already have an account?' : "Don't have one yet?"}{' '}
+            <Link
+              to={isNewUser ? '/' : '/signup'}
+              className="auth-switch-link"
+              tabIndex={0}
+            >
+              {isNewUser ? 'Log in' : 'Sign up'}
             </Link>
-          </div>
+          </p>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
