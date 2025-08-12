@@ -35,7 +35,7 @@ const Upload = () => {
     const API_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8001';
 
     try {
-      const response = await fetch(`/api/upload`, {
+      const response = await fetch(`${API_BASE_URL}/api/upload`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
