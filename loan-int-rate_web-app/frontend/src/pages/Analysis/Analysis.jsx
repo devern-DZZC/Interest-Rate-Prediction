@@ -4,6 +4,7 @@ import ShapWaterfallChart from '../../components/ShapWaterfallChart';
 import SideNav from '../../components/SideNav';
 import ShapImportanceChart from '../../components/ShapImportanceChart';
 import './Analysis.css';
+import Spinner from '../../components/Spinner';
 
   // eslint-disable-next-line no-undef
   const API_BASE_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8001';
@@ -87,7 +88,7 @@ const Analysis = () => {
         {error && <div className="error-message">{error}</div>}
 
         {loadingClients ? (
-          <p>Loading clients...</p>
+          <Spinner />
         ) : (
           <>
             <label htmlFor="client-select">Select Client:</label>
@@ -106,7 +107,7 @@ const Analysis = () => {
           </>
         )}
 
-        {loadingClientData && <p>Loading client data...</p>}
+        {loadingClientData && <Spinner />}
 
         {clientData && !loadingClientData && (
           <section className="client-info">
@@ -120,7 +121,7 @@ const Analysis = () => {
               <li>Days with Credit Line: {clientData.daysWithCrLine ?? clientData.days_with_cr_line ?? 'N/A'}</li>
               <li>Revolving Utilization: {clientData.revolUtil ?? clientData.revol_util ?? 'N/A'}</li>
               <li>Inquiries Last 6 Months: {clientData.inqLast6Mon ?? clientData.inq_last_6_mon ?? 'N/A'}</li>
-              <li>Delinquencies in 2 Years: {yesNo(clientData.delinq2Years ?? clientData.delinq_2_years)}</li>
+              <li>Delinquencies in 2 Years: {clientData.delinq2Years ?? clientData.delinq_2_years ?? 'N/A'}</li>
               <li>Public Records: {clientData.pubRec ?? clientData.pub_rec ?? 'N/A'}</li>
               <li>Not Fully Paid: {yesNo(clientData.notFullyPaid ?? clientData.not_fully_paid)}</li>
               <li>Predicted Interest Rate: {clientData.intRate ? clientData.intRate.toFixed(2) : 'N/A'}%</li>

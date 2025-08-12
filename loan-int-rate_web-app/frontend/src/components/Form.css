@@ -2,3 +2,22 @@
     padding: 6px;
     background-color: #8739f9;
 }
+
+.form-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .form-message.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .form-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
